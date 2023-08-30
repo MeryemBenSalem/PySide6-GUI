@@ -1,0 +1,8 @@
+# This file may be used to create an environment using:
+# $ conda create --name <env> --file <this file>
+pyside6=6.5.2=pypi_0
+sahi=0.11.14=pypi_0
+super-gradients=3.2.0=pypi_0
+torch=2.0.1=pypi_0
+ultralytics=8.0.124=pypi_0
+

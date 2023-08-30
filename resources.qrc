@@ -1,0 +1,13 @@
+<RCC>
+  <qresource prefix="all">
+    <file>img/save.png</file>
+    <file>img/delay.png</file>
+    <file>img/box_down.png</file>
+    <file>img/stop.png</file>
+    <file>img/begin.png</file>
+    <file>img/set.png</file>
+    <file>img/menu.png</file>
+    <file>img/file.png</file>
+    
+  </qresource>
+</RCC>
