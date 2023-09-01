@@ -192,7 +192,6 @@ class window(QMainWindow, Ui_window):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("YOLO App")
-
         self.char_label.setText('Detection ')
         self.undo_button.deleteLater()
         self.lineEdit_4.deleteLater()
@@ -298,7 +297,8 @@ class window(QMainWindow, Ui_window):
         """)
         self.verticalLayout_14.addWidget(self.combo_box)
         # Confidence Slider
-        self.label = QLabel("                 0.3")
+        self.label = QLabel("0.3")
+        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.label.setStyleSheet("color: white; font-size: 16px; ")
         self.verticalLayout_8.addWidget(self.label)
         slider = QSlider(Qt.Horizontal)
@@ -368,7 +368,8 @@ class window(QMainWindow, Ui_window):
 
     def slider_value_changed(self, value):
         scaled_value = value / 100.0
-        self.label.setText(f"                {scaled_value:.2f}")
+        self.label.setText(f"{scaled_value:.2f}")
+        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
     def text_progress(self):
         try:
@@ -384,7 +385,7 @@ class window(QMainWindow, Ui_window):
             self.progress_bar.setValue(self.progress_value)
             self.inference_running = True
             self.start_button.setEnabled(False)
-            self.timer.start(100)  # Timer interval in milliseconds
+            self.timer.start(100) 
             self.run_inference()
 
     def update_progress(self):
@@ -446,8 +447,16 @@ class window(QMainWindow, Ui_window):
         pixmap.save(file_path)
 
     def loading(self):
-        self.res_image.setText('Loading ...')
-        self.progress_bar.setFormat("Preparing for Inference ...")
+        try:
+            if self.pre_image.pixmap():
+             self.res_image.setText('Loading ...')
+             self.progress_bar.setFormat("Preparing for Inference ...")
+            else:
+              self.res_image.setText('Please Insert an Image ')  
+              self.undo()
+        except Exception as e:
+            self.show_error_message(f"Error: {str(e)}")
+
 
     def run_inference(self):
 
@@ -520,23 +529,20 @@ class window(QMainWindow, Ui_window):
 
                     self.show_inference_results_dialog(
                         results, duration, confidence, model)
-
-            else:
-                # If inference fails, show an error message
-                self.progress_bar.setFormat("Inference Failed")
-                self.show_error_message("Error: Inference failed.")
-                self.char_label.setText('Detection Failed')
-                self.progress_bar.setFormat("Failed ")
+       
         except Exception as e:
-            self.show_error_message(f"Error: {str(e)}")
             self.progress_bar.setValue(100)
             self.timer.stop()
             self.inference_running = False
             self.start_button.setEnabled(True)
-            self.progress_bar.setFormat("Error")
             self.progress_bar.setStyleSheet(
                 "QProgressBar {"
                 "   background-color: rgb(220, 20, 60);")
+            self.progress_bar.setFormat("Inference Failed")
+            self.show_error_message("Error: Inference failed.")
+            self.char_label.setText('Detection Failed')
+            self.progress_bar.setFormat("Failed ")
+            self.show_error_message(f"Error: {str(e)}")
         finally:
 
             # Deletes Images after inference
