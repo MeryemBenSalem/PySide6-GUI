@@ -297,12 +297,12 @@ class window(QMainWindow, Ui_window):
         """)
         self.verticalLayout_14.addWidget(self.combo_box)
         # Confidence Slider
-        self.label = QLabel("0.3")
+        self.label = QLabel("0.01")
         self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.label.setStyleSheet("color: white; font-size: 16px; ")
         self.verticalLayout_8.addWidget(self.label)
         slider = QSlider(Qt.Horizontal)
-        slider.setMinimum(30)  # Map 0.3 to 30
+        slider.setMinimum(1)  # Map 0.3 to 30
         slider.setMaximum(100)  # Map 1.0 to 100
         slider.valueChanged.connect(self.slider_value_changed)
 
